@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 st.title("📄 Tarjouspyyntö AI")
-st.write("Analysoi yrityksen tarjouspyyntö nopeasti.")
+st.write("Analysoi yrityksen tarjouspyyntö ja luo valmis vastausluonnos.")
 
 st.divider()
 
@@ -29,29 +29,40 @@ if st.button("Analysoi tarjouspyyntö", type="primary"):
         )
 
         prompt = f"""
-Analysoi seuraava yrityksen tarjouspyyntö.
+Olet B2B-myyntiä ja tarjouspyyntöjä käsittelevä asiantuntija.
 
-Vastaa seuraavilla otsikoilla:
+Analysoi seuraava tarjouspyyntö.
 
-1. Asiakkaan tarve
-2. Tärkeimmät vaatimukset
-3. Puuttuvat tiedot
-4. Mitä yrityksen kannattaa huomioida
-5. Ehdotus vastaukseksi asiakkaalle
+Tee analyysi näillä otsikoilla:
 
-Pidä analyysi selkeänä ja käytännöllisenä.
+## Asiakkaan tarve
+Kerro lyhyesti mitä asiakas haluaa.
+
+## Tärkeimmät vaatimukset
+Listaa tarjouspyynnön tärkeimmät vaatimukset.
+
+## Puuttuvat tiedot
+Listaa tiedot, jotka pitäisi selvittää ennen tarjouksen tekemistä.
+
+## Myynnillinen arvio
+Kerro lyhyesti, mitä tässä kannattaa myydä ja mihin kannattaa kiinnittää huomiota.
+
+## Ehdotus vastaukseksi
+Kirjoita valmis, ammattimainen sähköpostivastaus asiakkaalle.
+Älä keksi hintaa tai ominaisuuksia, joita tarjouspyynnössä ei mainita.
 
 Tarjouspyyntö:
 
 {request}
 """
 
-        with st.spinner("Analysoidaan..."):
+        with st.spinner("Analysoidaan tarjouspyyntöä..."):
             response = client.interactions.create(
                 model="gemini-3-flash-preview",
                 input=prompt
             )
 
         st.divider()
-        st.subheader("AI:n analyysi")
-        st.write(response.output_text)
+
+        st.subheader("🤖 AI:n analyysi")
+        st.markdown(response.output_text)
