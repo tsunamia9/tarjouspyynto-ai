@@ -4,26 +4,102 @@ from google import genai
 st.set_page_config(
     page_title="Tarjouspyyntö AI",
     page_icon="📄",
-    layout="centered",
+    layout="wide",
 )
 
-st.title("📄 Tarjouspyyntö AI")
-st.write("Analysoi yrityksen tarjouspyyntö ja luo valmis vastausluonnos.")
+# ---------- STYLE ----------
+
+st.markdown("""
+<style>
+    .block-container {
+        max-width: 1100px;
+        padding-top: 3rem;
+        padding-bottom: 4rem;
+    }
+
+    .hero {
+        padding: 2rem 0 1.5rem 0;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+        font-size: 1.15rem;
+        color: #666;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .result-box {
+        padding: 1.5rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        background: #fafafa;
+        margin-top: 1rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
+# ---------- HEADER ----------
+
+st.markdown("""
+<div class="hero">
+    <h1>📄 Tarjouspyyntö AI</h1>
+    <p>
+        Muuta asiakkaan tarjouspyyntö selkeäksi analyysiksi
+        ja valmiiksi vastausluonnokseksi.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 st.divider()
 
-request = st.text_area(
-    "Tarjouspyyntö",
-    height=300,
-    placeholder="Liitä asiakkaan tarjouspyyntö tähän..."
+
+# ---------- INPUT ----------
+
+st.markdown(
+    '<div class="section-title">Tarjouspyyntö</div>',
+    unsafe_allow_html=True
 )
 
-if st.button("Analysoi tarjouspyyntö", type="primary"):
+request = st.text_area(
+    "",
+    height=300,
+    placeholder=(
+        "Liitä asiakkaan tarjouspyyntö tähän...\n\n"
+        "Esimerkiksi:\n"
+        "Tarvitsemme uudet verkkosivut yrityksellemme..."
+    ),
+    label_visibility="collapsed",
+)
+
+st.write("")
+
+analyze = st.button(
+    "🚀 Analysoi tarjouspyyntö",
+    type="primary",
+    use_container_width=True,
+)
+
+
+# ---------- AI ----------
+
+if analyze:
 
     if not request.strip():
-        st.warning("Syötä ensin tarjouspyyntö.")
+        st.warning("Liitä tarjouspyyntö ennen analysointia.")
 
     else:
+
         client = genai.Client(
             api_key=st.secrets["GEMINI_API_KEY"]
         )
@@ -57,6 +133,7 @@ Tarjouspyyntö:
 """
 
         with st.spinner("Analysoidaan tarjouspyyntöä..."):
+
             response = client.interactions.create(
                 model="gemini-3-flash-preview",
                 input=prompt
@@ -64,5 +141,19 @@ Tarjouspyyntö:
 
         st.divider()
 
-        st.subheader("🤖 AI:n analyysi")
+        st.markdown(
+            '<div class="section-title">🤖 AI:n analyysi</div>',
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="result-box">',
+            unsafe_allow_html=True
+        )
+
         st.markdown(response.output_text)
+
+        st.markdown(
+            '</div>',
+            unsafe_allow_html=True
+        )
