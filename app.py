@@ -7,44 +7,92 @@ st.set_page_config(
     layout="wide",
 )
 
-# ---------- STYLE ----------
+# ---------- CUSTOM CSS ----------
 
 st.markdown("""
 <style>
-    .block-container {
-        max-width: 1100px;
-        padding-top: 3rem;
-        padding-bottom: 4rem;
-    }
 
-    .hero {
-        padding: 2rem 0 1.5rem 0;
-    }
+/* Background */
+.stApp {
+    background: #f4f6f8;
+}
 
-    .hero h1 {
-        font-size: 2.8rem;
-        margin-bottom: 0.5rem;
-    }
+/* Main container */
+.block-container {
+    max-width: 1100px;
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+}
 
-    .hero p {
-        font-size: 1.15rem;
-        color: #666;
-    }
+/* Header */
+.hero {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 18px;
+    border: 1px solid #e2e6ea;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
 
-    .section-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
-    }
+.hero h1 {
+    font-size: 2.8rem;
+    margin: 0;
+    color: #111827;
+}
 
-    .result-box {
-        padding: 1.5rem;
-        border: 1px solid #e5e5e5;
-        border-radius: 12px;
-        background: #fafafa;
-        margin-top: 1rem;
-    }
+.hero p {
+    color: #6b7280;
+    font-size: 1.1rem;
+    margin-top: 0.7rem;
+}
+
+/* Input card */
+.input-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid #e2e6ea;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+/* Text area */
+textarea {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+}
+
+/* Analyze button */
+.stButton > button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.stButton > button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Result */
+.result-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #e2e6ea;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    margin-top: 1.5rem;
+}
+
+/* Divider */
+hr {
+    border-color: #e5e7eb;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -55,29 +103,31 @@ st.markdown("""
 <div class="hero">
     <h1>📄 Tarjouspyyntö AI</h1>
     <p>
-        Muuta asiakkaan tarjouspyyntö selkeäksi analyysiksi
-        ja valmiiksi vastausluonnokseksi.
+        Muuta asiakkaan tarjouspyyntö nopeasti
+        selkeäksi analyysiksi ja vastausluonnokseksi.
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-st.divider()
-
 
 # ---------- INPUT ----------
 
-st.markdown(
-    '<div class="section-title">Tarjouspyyntö</div>',
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="input-card">
+<h3>Tarjouspyyntö</h3>
+<p style="color:#6b7280;">
+Liitä asiakkaan tarjouspyyntö alla olevaan kenttään.
+</p>
+</div>
+""", unsafe_allow_html=True)
 
 request = st.text_area(
-    "",
+    "Tarjouspyyntö",
     height=300,
     placeholder=(
-        "Liitä asiakkaan tarjouspyyntö tähän...\n\n"
-        "Esimerkiksi:\n"
-        "Tarvitsemme uudet verkkosivut yrityksellemme..."
+        "Esimerkiksi:\n\n"
+        "Hei,\n"
+        "Tarvitsemme yrityksellemme uudet verkkosivut..."
     ),
     label_visibility="collapsed",
 )
@@ -85,7 +135,7 @@ request = st.text_area(
 st.write("")
 
 analyze = st.button(
-    "🚀 Analysoi tarjouspyyntö",
+    "🚀  Analysoi tarjouspyyntö",
     type="primary",
     use_container_width=True,
 )
@@ -139,21 +189,11 @@ Tarjouspyyntö:
                 input=prompt
             )
 
-        st.divider()
-
-        st.markdown(
-            '<div class="section-title">🤖 AI:n analyysi</div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="result-box">',
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <div class="result-card">
+        <h2>🤖 AI:n analyysi</h2>
+        """, unsafe_allow_html=True)
 
         st.markdown(response.output_text)
 
-        st.markdown(
-            '</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown("</div>", unsafe_allow_html=True)
