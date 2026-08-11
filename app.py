@@ -12,85 +12,126 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Background */
+/* ---------- Background ---------- */
+
 .stApp {
-    background: #f4f6f8;
+    background: #102a24;
 }
 
-/* Main container */
 .block-container {
     max-width: 1100px;
     padding-top: 3rem;
     padding-bottom: 4rem;
 }
 
-/* Header */
+
+/* ---------- Header ---------- */
+
 .hero {
-    background: #ffffff;
+    background: #173a31;
     padding: 2.5rem;
     border-radius: 18px;
-    border: 1px solid #e2e6ea;
+    border: 1px solid #285447;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
 .hero h1 {
     font-size: 2.8rem;
     margin: 0;
-    color: #111827;
+    color: #ffffff;
 }
 
 .hero p {
-    color: #6b7280;
+    color: #b8cbc5;
     font-size: 1.1rem;
     margin-top: 0.7rem;
 }
 
-/* Input card */
+
+/* ---------- Input card ---------- */
+
 .input-card {
     background: #ffffff;
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid #e2e6ea;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid #dfe5e2;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
-/* Text area */
+.input-card h3 {
+    color: #173a31;
+    margin-bottom: 0.3rem;
+}
+
+.input-card p {
+    color: #66736f;
+}
+
+
+/* ---------- Text area ---------- */
+
 textarea {
     background: #ffffff !important;
+    color: #17201d !important;
     border-radius: 12px !important;
+    border: 1px solid #d8dfdc !important;
 }
 
-/* Analyze button */
+textarea:focus {
+    border-color: #2f8f6b !important;
+}
+
+
+/* ---------- Analyze button ---------- */
+
 .stButton > button {
-    background: #2563eb;
+    background: #2f8f6b;
     color: white;
     border: none;
     border-radius: 10px;
-    padding: 0.75rem 1.5rem;
+    padding: 0.8rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
     transition: 0.2s;
+    box-shadow: 0 5px 15px rgba(47,143,107,0.25);
 }
 
 .stButton > button:hover {
-    background: #1d4ed8;
+    background: #26785a;
+    color: white;
     transform: translateY(-1px);
 }
 
-/* Result */
+
+/* ---------- Result card ---------- */
+
 .result-card {
     background: #ffffff;
+    color: #17201d;
     padding: 2rem;
     border-radius: 16px;
-    border: 1px solid #e2e6ea;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    border: 1px solid #dfe5e2;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     margin-top: 1.5rem;
 }
 
-/* Divider */
+.result-card h2 {
+    color: #173a31;
+}
+
+
+/* ---------- Divider ---------- */
+
 hr {
-    border-color: #e5e7eb;
+    border-color: #285447;
+}
+
+
+/* ---------- Warning ---------- */
+
+.stAlert {
+    border-radius: 10px;
 }
 
 </style>
@@ -114,12 +155,13 @@ st.markdown("""
 
 st.markdown("""
 <div class="input-card">
-<h3>Tarjouspyyntö</h3>
-<p style="color:#6b7280;">
-Liitä asiakkaan tarjouspyyntö alla olevaan kenttään.
-</p>
+    <h3>Tarjouspyyntö</h3>
+    <p>
+        Liitä asiakkaan tarjouspyyntö alla olevaan kenttään.
+    </p>
 </div>
 """, unsafe_allow_html=True)
+
 
 request = st.text_area(
     "Tarjouspyyntö",
@@ -132,7 +174,11 @@ request = st.text_area(
     label_visibility="collapsed",
 )
 
+
 st.write("")
+
+
+# ---------- BUTTON ----------
 
 analyze = st.button(
     "🚀  Analysoi tarjouspyyntö",
@@ -141,11 +187,12 @@ analyze = st.button(
 )
 
 
-# ---------- AI ----------
+# ---------- AI ANALYSIS ----------
 
 if analyze:
 
     if not request.strip():
+
         st.warning("Liitä tarjouspyyntö ennen analysointia.")
 
     else:
@@ -175,7 +222,9 @@ Kerro lyhyesti, mitä tässä kannattaa myydä ja mihin kannattaa kiinnittää h
 
 ## Ehdotus vastaukseksi
 Kirjoita valmis, ammattimainen sähköpostivastaus asiakkaalle.
-Älä keksi hintaa tai ominaisuuksia, joita tarjouspyynnössä ei mainita.
+
+Älä keksi hintaa tai ominaisuuksia,
+joita tarjouspyynnössä ei mainita.
 
 Tarjouspyyntö:
 
@@ -189,11 +238,16 @@ Tarjouspyyntö:
                 input=prompt
             )
 
+
+        # ---------- RESULT ----------
+
         st.markdown("""
         <div class="result-card">
-        <h2>🤖 AI:n analyysi</h2>
+            <h2>🤖 AI:n analyysi</h2>
         """, unsafe_allow_html=True)
 
         st.markdown(response.output_text)
 
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("""
+        </div>
+        """, unsafe_allow_html=True)
