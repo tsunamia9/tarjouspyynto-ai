@@ -142,7 +142,7 @@ hr {
 
 st.markdown("""
 <div class="hero">
-    <h1>📄 Tarjouspyyntö AI</h1>
+    <h1>Tarjouspyyntö AI</h1>
     <p>
         Muuta asiakkaan tarjouspyyntö nopeasti
         selkeäksi analyysiksi ja vastausluonnokseksi.
@@ -181,7 +181,7 @@ st.write("")
 # ---------- BUTTON ----------
 
 analyze = st.button(
-    "🚀  Analysoi tarjouspyyntö",
+    "Analysoi tarjouspyyntö",
     type="primary",
     use_container_width=True,
 )
